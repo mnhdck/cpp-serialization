@@ -1,24 +1,34 @@
 # cpp-serialization
 
 #### Description
-C++对象序列化、反序列化，
+C++ Serialize、DeSerialize，
 使用C11与rapidJson，自动完成序列化与反序列化，
 包含头文件即可直接使用，无其他依赖。
 
 #### Software Architecture
-Software architecture description
+C11 with rapidjson
 
 #### Installation
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  copy dir "source" to your project.
+2.  include "serialize.hpp".
+3.  you can use now.
 
 #### Instructions
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  simple object use
+
+```
+    PropertyObject<int> my("Speed",10);
+    my.Set(333);
+    std::string str = my.ToSerializeString(); //序列化
+
+    PropertyObject<int> my2("Speed", 0);
+    my2.FromSerializeString(str );
+    int nSpeed = my2.Get();
+```
+
+2.  for multi object use you can find example in dir example
 
 #### Contribution
 
@@ -28,11 +38,3 @@ Software architecture description
 4.  Create Pull Request
 
 
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
