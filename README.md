@@ -6,20 +6,32 @@ C++对象序列化、反序列化，
 包含头文件即可直接使用，无其他依赖。
 
 #### 软件架构
-软件架构说明
+借助C++11新特性 + 宏 + rapidjson
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  复制source中的文件到你的工程
+2.  include "serialize.hpp"
+3.  即可使用
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  简单对象使用如下：
+
+```
+    PropertyObject<int> my("Speed",10);
+    my.Set(333);
+    std::string str = my.ToSerializeString(); //序列化
+
+    PropertyObject<int> my2("Speed", 0);
+    my2.FromSerializeString(str );
+    int nSpeed = my2.Get();
+```
+
+
+2.  对象组合用法，详见example文件夹
+3.  宏的使用 
 
 #### 参与贡献
 
@@ -29,11 +41,3 @@ C++对象序列化、反序列化，
 4.  新建 Pull Request
 
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
