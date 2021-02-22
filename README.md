@@ -72,6 +72,26 @@ int speed =  recieveObj.GetSpeed();
 - Property：定义一个属性
 - PropertyArray：定义一个属性数组
 
+4.  数据类型支持扩展
+
+```
+class PropertyObjectCustom : public PropertyBase
+{
+public:
+        // 按保存的结构实现序列化接口
+        virtual std::string Serialize() override {...}
+ 
+        // 按保存的结构实现反序列化接口
+        virtual bool DeSerialize(std::string& data) override {...}
+
+private:
+	StructCustom m_data;
+}
+```
+请参照example目录下的extend.cpp
+
+5.  未来的版本将支持属性发生改变时发出PropertyChanged事件，及SetProperty后自动调用发送json字符串的回调……
+
 
 #### 参与贡献
 
