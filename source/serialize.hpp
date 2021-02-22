@@ -18,24 +18,6 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/StringBuffer.h"
 
-#define NameSpace(namespace) \
-	public: \
-	virtual std::string GetNameSpace() { return #namespace; }
-
-#define Property(name, type, defaultVal) \
-	private: \
-		PropertyObject<type>* m_##name = new PropertyObject<type>(#name, defaultVal, m_objs); \
-	public: \
-		type Get##name(){ return m_##name->Get();} \
-		void Set##name(type value){m_##name->Set(value);}
-
-#define PropertyArray(name, type) \
-	private: \
-		PropertyArrayBase<type>* m_array##name = new PropertyArrayBase<type>(#name, m_objs); \
-	public: \
-		void Add##name(type val){m_array##name->Add(val);} \
-		std::vector<type> Get##name(){return m_array##name->GetArray();}
-
 class SerializeBase;
 class PropertyBase
 {
@@ -331,3 +313,21 @@ public:
 protected:
 	std::vector<PropertyBase*> m_objs;
 };
+
+#define NameSpace(namespace) \
+	public: \
+	virtual std::string GetNameSpace() { return #namespace; }
+
+#define Property(name, type, defaultVal) \
+	private: \
+		PropertyObject<type>* m_##name = new PropertyObject<type>(#name, defaultVal, m_objs); \
+	public: \
+		type Get##name(){ return m_##name->Get();} \
+		void Set##name(type value){m_##name->Set(value);}
+
+#define PropertyArray(name, type) \
+	private: \
+		PropertyArrayBase<type>* m_array##name = new PropertyArrayBase<type>(#name, m_objs); \
+	public: \
+		void Add##name(type val){m_array##name->Add(val);} \
+		std::vector<type> Get##name(){return m_array##name->GetArray();}
