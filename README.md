@@ -74,6 +74,8 @@ int speed =  recieveObj.GetSpeed();
 
 4.  数据类型支持扩展
 
+除了支持基本的bool,int,long,float,double,string类型外，还通过以下方式扩展
+
 ```
 class PropertyObjectCustom : public PropertyBase
 {
@@ -91,6 +93,9 @@ private:
 请参照example目录下的extend.cpp
 
 5.  未来的版本将支持属性发生改变时发出PropertyChanged事件，及SetProperty后自动调用发送json字符串的回调……
+
+
+
 
 
 #### 参与贡献
