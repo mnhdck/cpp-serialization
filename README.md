@@ -27,6 +27,9 @@
     PropertyObject<int> my2("Speed", 0);
     bool bSuccess = my2.DeSerialize(str );
     int nSpeed = my2.Get();
+    
+    // 可以通过name来区分判断json数据
+    std::string name = my2.GetName();
 ```
 
 
@@ -65,9 +68,9 @@ int speed =  recieveObj.GetSpeed();
 ```
 
 3.  宏的使用 
-NameSpace：为类提供一个命名空间，在生成json时会作为root对象的名称，不提供则为空。
-Property：定义一个属性
-PropertyArray：定义一个属性数组
+- NameSpace：为类提供一个命名空间，在生成json时会作为root对象的名称，不提供则为空。
+- Property：定义一个属性
+- PropertyArray：定义一个属性数组
 
 
 #### 参与贡献
@@ -76,5 +79,6 @@ PropertyArray：定义一个属性数组
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
+5.  审核通过合并
 
 
