@@ -76,7 +76,7 @@ private:
 class CarInfo: public SerializeBase
 {
 public:
-	NameSpace(CarInfo);
+	GroupName("CarInfo");
 
 	Property(Speed, int, 0);
 	PropertyArray(ArrayInt, int);
@@ -92,7 +92,7 @@ public:
 int main()
 {
 	CarInfo carInfo;
-	std::string nameSpace = carInfo.GetNameSpace();
+	std::string sGroupName = carInfo.GetGroupName();
 	carInfo.SetSpeed(28);
 	
 	carInfo.SetMyStruct({ 222,true });
