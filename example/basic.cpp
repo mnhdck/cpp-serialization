@@ -4,7 +4,7 @@
 class CarInfo: public SerializeBase
 {
 public:
-	NameSpace(CarInfo);
+	GroupName("CarInfo");
 
 	Property(Speed, int, 0);
 	Property(volume, int, 0);
@@ -18,8 +18,8 @@ public:
 int main()
 {
     CarInfo test;
-	std::string nameSpace = test.GetNameSpace();
-    std::cout << NameSpace <<std::endl;
+	std::string name = test.GetGroupName();
+    std::cout << name <<std::endl;
 
 	test.SetSpeed(28);
     int testValue = test.GetSpeed();
@@ -40,5 +40,21 @@ int main()
 	    int speed =  test2.GetSpeed();
         std::cout << "Speed=" << speed <<std::endl;
     }
+
+    // Single use
+    PropertyObject<int> my("hehe",10);
+	my.Set(333);
+	std::string sss = my.Serialize();
+
+	PropertyObject<int> my2("hehe", 10);
+	my2.DeSerialize(sss);
+
+    // Single static use
+    std::string jsstr = PropertyObject<int>::CreateJson("hi", 250);
+	int number = PropertyObject<int>::CreateObject(jsstr).Get();
+
+    // Get serialize string's name for compare
+    std::string sName = PropertyBase::GetSerializeStringName(strJson);
+    
     return 0;
 }
