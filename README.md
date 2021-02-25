@@ -2,8 +2,8 @@
 
 #### 介绍
 - C++对象序列化、反序列化，
-- 使用C11与rapidJson，自动完成序列化与反序列化，
-- 包含头文件即可直接使用，无其他依赖。
+- 使用C11与rapidJson，自动完成可扩展类型的序列化与反序列化，
+- Header-only，包含头文件即可直接使用，无其他依赖。
 
 #### 软件架构
 借助C++11新特性 + 宏 + rapidjson，
@@ -33,7 +33,7 @@
 ```
 
 
-2.  对象组合用法，详见example文件夹
+2.  继承SerializeBase类可实现对象组合用法，支持动态数组，详见example文件夹
 
 ```
 // 定义一个类（需继承自SerializeBase）
@@ -41,7 +41,7 @@
 class CarInfo: public SerializeBase
 {
 public:
-	NameSpace(CarInfo);
+	GroupName(CarInfo);
 
 	Property(Speed, int, 0);
 	Property(volume, int, 0);
@@ -54,7 +54,7 @@ public:
 
 // Serialize
 CarInfo obj;
-std::string nameSpace = obj.GetNameSpace();
+std::string nameSpace = obj.GetGroupName();
 obj.SetSpeed(28);
 obj.AddArrayInt(22);
 obj.AddArrayInt(66);
@@ -68,7 +68,7 @@ int speed =  recieveObj.GetSpeed();
 ```
 
 3.  宏的使用 
-- NameSpace：为类提供一个命名空间，在生成json时会作为root对象的名称，不提供则为空。
+- GroupName：为类提供一个命名空间，在生成json时会作为root对象的名称，不提供则为空。
 - Property：定义一个属性
 - PropertyArray：定义一个属性数组
 
@@ -92,7 +92,10 @@ private:
 ```
 请参照example目录下的extend.cpp
 
-5.  未来的版本将支持属性发生改变时发出PropertyChanged事件，及SetProperty后自动调用发送json字符串的回调……
+5.  未来的版本将考虑以下特性：
+- 支持属性发生改变时发出PropertyChanged事件
+- SetProperty后自动调用发送json字符串的回调
+- 支持配置只发送变化的数据……
 
 
 
@@ -104,6 +107,6 @@ private:
 2.  新建 Feat_xxx 分支
 3.  提交代码
 4.  新建 Pull Request
-5.  审核通过合并
+5.  管理员审核通过合并
 
 
