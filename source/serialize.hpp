@@ -31,6 +31,14 @@ public:
 
 	virtual bool DeSerialize(std::string& data) = 0;
 
+	static std::string GetSerializeStringName(std::string& data) {
+		rapidjson::Document doc;
+		doc.Parse(data.c_str());
+		if (!doc.HasParseError() && doc.MemberCount() == 1)
+			return doc.MemberBegin()->name.GetString();
+		return "";
+	}
+
 protected:
 	std::string m_name;
 private:
@@ -74,6 +82,22 @@ public:
 		return false;
 	}
 
+	static std::string CreateJson(std::string name, T val) {
+		PropertyObject<T> obj(name, val);
+		return obj.Serialize();
+	}
+
+	static PropertyObject<T> CreateObject(std::string& data) { 
+		PropertyObject<T> obj;
+		rapidjson::Document doc;
+		doc.Parse(data.c_str());
+		if (!doc.HasParseError() && doc.MemberCount() > 0)
+		{
+			obj.m_name = doc.MemberBegin()->name.GetString();
+			obj.DeSerializeValue<T>(doc[obj.m_name.c_str()]);
+		}
+		return obj;
+	}
 protected:
 	template<typename T>
 	void SerializeValue(rapidjson::Writer<rapidjson::StringBuffer>& writer);
@@ -118,6 +142,9 @@ protected:
 
 	template<>
 	bool DeSerializeValue<std::string>(rapidjson::Value& val) { if (val.IsString()) Set(val.GetString(), false); return val.IsString(); }
+
+private:
+	PropertyObject():PropertyBase(""){}
 
 private:
 	T m_data;
@@ -238,14 +265,14 @@ public:
 		for (auto obj : m_objs) { delete obj; }
 		m_objs.clear();
 	}
-	virtual std::string GetNameSpace() { return ""; }
+	virtual std::string GetGroupName() { return ""; }
 
-	std::string ToSerializeString()
+	std::string ToSerializeString(bool bWithGroupName = true)
 	{
 		std::string data;
 		std::string tail;
-		std::string sNameSpace = GetNameSpace();
-		if (!sNameSpace.empty())
+		std::string sNameSpace = GetGroupName();
+		if (sNameSpace.empty() == false && bWithGroupName)
 		{
 			data.append("{\"");
 			data.append(sNameSpace);
@@ -273,7 +300,7 @@ public:
 		return data;
 	}
 
-	bool FromSerializeString(std::string& json)
+	bool FromSerializeString(std::string& json, bool bWithGroupName = true)
 	{
 		std::string data = json;
 		rapidjson::Document doc;
@@ -286,14 +313,14 @@ public:
 			return false;
 		}
 		
-		std::string sNameSpace = GetNameSpace();
-		if (sNameSpace.empty() == false)
+		std::string sGroupName = GetGroupName();
+		if (sGroupName.empty() == false && bWithGroupName)
 		{
-			if (doc.HasMember(sNameSpace.c_str()) && doc[sNameSpace.c_str()].IsObject())
+			if (doc.HasMember(sGroupName.c_str()) && doc[sGroupName.c_str()].IsObject())
 			{
 				rapidjson::StringBuffer buffer;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
-				rapidjson::Value& objs = doc[sNameSpace.c_str()];
+				rapidjson::Value& objs = doc[sGroupName.c_str()];
 				objs.Accept(writer);
 				data = buffer.GetString();
 			}
@@ -314,9 +341,10 @@ protected:
 	std::vector<PropertyBase*> m_objs;
 };
 
-#define NameSpace(namespace) \
+#define GroupName(groupName) \
 	public: \
-	virtual std::string GetNameSpace() { return #namespace; }
+	virtual std::string GetGroupName() { return groupName; } \
+	static std::string GroupName(){return groupName;} 
 
 #define Property(name, type, defaultVal) \
 	private: \
